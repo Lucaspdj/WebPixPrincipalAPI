@@ -12,6 +12,7 @@ namespace WebPixPrincipalRepository
         public DbSet<Estilo> Estilo { get; set; }
         public DbSet<Configuracao> Configuracao { get; set; }
         public DbSet<Estrutura> Estrutura { get; set; }
+        public DbSet<Arquivo> Arquivo { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
