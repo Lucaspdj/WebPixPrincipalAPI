@@ -23,21 +23,16 @@ namespace WebPixPrincipalAPI.Controllers
                 if (Arquivo.idCliente != 0)
                 {
                     if (ArquivoDAO.Save(Arquivo))
-                    {
                         return Json("Arquivo salva com sucesso");
-                    }
                     else
-                    {
                         return Json("Encontramos algum problema ao salvar a Arquivo. Entre em contato com o suporte");
-                    }
+
                 }
                 else
                     return Json("Encontramos algum problema ao salvar a Arquivo. Entre em contato com o suporte");
             }
             else
-            {
                 return Json("Você nao tem acesso neste plugin");
-            }
         }
 
         [ActionName("GetAllArquivo")]
