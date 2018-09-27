@@ -44,7 +44,7 @@ namespace WebPixPrincipalRepository
             {
                 using (var db = new WebPixContext())
                 {
-                    return db.Arquivo.Where(x => x.Ativo == "true").ToList();
+                    return db.Arquivo.Where(x => x.Ativo == true).ToList();
                 }
             }
             catch (Exception e)

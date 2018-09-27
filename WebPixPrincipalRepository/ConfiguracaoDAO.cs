@@ -44,7 +44,7 @@ namespace WebPixPrincipalRepository
             {
                 using (var db = new WebPixContext())
                 {
-                    return db.Configuracao.Where(x => x.Ativo == "true").ToList();
+                    return db.Configuracao.Where(x => x.Ativo == true).ToList();
                 }
             }
             catch (Exception e)
@@ -60,7 +60,7 @@ namespace WebPixPrincipalRepository
             {
                 using (var db = new WebPixContext())
                 {
-                    var lista = db.Configuracao.ToList().Where(x => x.idCliente == idcliente && x.Ativo == "true");
+                    var lista = db.Configuracao.ToList().Where(x => x.idCliente == idcliente && x.Ativo == true);
                     Dictionary<string, string> dic = new Dictionary<string, string>();
                     foreach (Configuracao conf in lista)
                     {
