@@ -40,12 +40,12 @@ namespace WebPixPrincipalAPI.Controllers
         }
 
         [ActionName("GetAllEstrutura")]
-        [HttpGet("{idCliente}/{token}")]
-        public async Task<IEnumerable<Estrutura>> GetAllEstrutura(int idCliente, string token)
+        [HttpGet("{idCliente}/{idPermissao}/{token}")]
+        public async Task<IEnumerable<Estrutura>> GetAllEstrutura([FromRoute]int idCliente, [FromRoute]int idPermissao, [FromRoute]string token)
         {
             if (await Seguranca.validaTokenAsync(token))
             {
-                return EstruturaDAO.GetAll().Where(x => x.idCliente == idCliente).ToList();
+                return EstruturaDAO.GetAll(idCliente, idPermissao);
             }
             else
                 return new List<Estrutura>();
