@@ -28,6 +28,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\PerfilController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
