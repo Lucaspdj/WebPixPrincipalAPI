@@ -8,5 +8,6 @@
         public string Senha { get; set; }
         public string VAdmin { get; set; }
         public string Avatar { get; set; }
+        public int IdEmpresa { get; set; }
     }
 }
