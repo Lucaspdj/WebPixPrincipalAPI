@@ -55,13 +55,14 @@ namespace WebPixPrincipalRepository
             }
 
         }
-        public static IEnumerable<Estrutura> GetAll(int idCliente, int idPermissao)
+        public static IEnumerable<Estrutura> GetAll(int idCliente, IEnumerable<int> idTipoAcoes)
         {
             try
             {
                 using (var db = new WebPixContext())
                 {
-                    var estruturas =  db.Estrutura.Where(x => x.Ativo && x.idCliente.Equals(idCliente) && x.idPermissao == idPermissao);
+                    var estruturas =  db.Estrutura.Where(x => x.Ativo 
+                        && x.idCliente.Equals(idCliente) && (idTipoAcoes.Contains(x.idTipoAcao) || x.idTipoAcao == 4));
                     return estruturas.ToList();
                 }
             }
