@@ -7,7 +7,7 @@ namespace WebPixPrincipalRepository.Entity
     public class Estrutura : Base
     {
         public int Tipo { get; set; }
-        public int idPermissao { get; set; }
+        public int idTipoAcao { get; set; }
         public int idPai { get; set; }
         public string Principal { get; set; }
         public string Imagem { get; set; }
