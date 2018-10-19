@@ -7,7 +7,7 @@ namespace WebPixPrincipalRepository
 {
     public class UsuarioDAO
     {
-        public static bool Save(Usuario obj)
+        public static Usuario Save(Usuario obj)
         {
             obj.DataCriacao = DateTime.Now;
             obj.DateAlteracao = DateTime.Now;
@@ -18,9 +18,9 @@ namespace WebPixPrincipalRepository
                     using (var db = new WebPixContext())
                     {
                         db.Usuario.Add(obj);
-                        db.SaveChanges();
+                        int Id = db.SaveChanges();
+                        return db.Usuario.Where(x => x.ID == Id).FirstOrDefault();
                     }
-                    return true;
                 }
                 else
                 {
@@ -29,13 +29,13 @@ namespace WebPixPrincipalRepository
                     {
                         db.Usuario.Update(obj);
                         db.SaveChanges();
-                        return true;
+                        return new Usuario();
                     }
                 }
             }
             catch (Exception e)
             {
-                return false;
+                return new Usuario();
             }
         }
         public static List<Usuario> GetAll()
