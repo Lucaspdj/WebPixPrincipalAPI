@@ -46,6 +46,20 @@ namespace WebPixPrincipalAPI.Controllers
 
         }
 
+        [ActionName("GetUsuarioById")]
+        [HttpGet("{idCliente:int}/{idUsuario:int}/{token}")]
+        public async Task<Usuario> GetUsuarioById(int idCliente, int idUsuario, string token)
+        {
+            if(await Seguranca.validaTokenAsync(token))
+            {
+                return UsuarioDAO.GetById(idCliente, idUsuario);
+            }
+            else
+            {
+                return new Usuario();
+            }
+        }
+
         [ActionName("LoginUsuario")]
         [HttpPost("{token}")]
         public async Task<Usuario> LoginUsuario([FromBody]object ObjLogin, string token)
