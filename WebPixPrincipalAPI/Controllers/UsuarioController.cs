@@ -23,16 +23,20 @@ namespace WebPixPrincipalAPI.Controllers
         {
             if (await Seguranca.validaTokenAsync(token))
             {
-                if (UsuarioDAO.Save(usuario))
+
+                try
                 {
-                    return Json("Usuario salva com sucesso");
+                    return Json(UsuarioDAO.Save(usuario));
                 }
-                else
+                catch (Exception e)
                 {
                     return Json("Encontramos algum problema ao salvar o usuario. Entre em contato com o suporte");
                 }
             }
-            return Json("Você nao tem acesso a esse plugin");
+            else
+            {
+                return Json("Você nao tem acesso a esse plugin");
+            }
         }
 
         [ActionName("GetAllUsuario")]
@@ -50,7 +54,7 @@ namespace WebPixPrincipalAPI.Controllers
         [HttpGet("{idCliente:int}/{idUsuario:int}/{token}")]
         public async Task<Usuario> GetUsuarioById(int idCliente, int idUsuario, string token)
         {
-            if(await Seguranca.validaTokenAsync(token))
+            if (await Seguranca.validaTokenAsync(token))
             {
                 return UsuarioDAO.GetById(idCliente, idUsuario);
             }
