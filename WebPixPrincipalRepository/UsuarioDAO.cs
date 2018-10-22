@@ -86,5 +86,21 @@ namespace WebPixPrincipalRepository
                 return new Usuario();
             }
         }
+
+        public static IEnumerable<Usuario> GetByIds(int idCliente, IEnumerable<int> ids)
+        {
+            try
+            {
+                using (var db = new WebPixContext())
+                {
+                    var users = db.Usuario.Where(x => x.idCliente.Equals(idCliente) && ids.Contains(x.ID));
+                    return users.ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<Usuario>();
+            }
+        }
     }
 }

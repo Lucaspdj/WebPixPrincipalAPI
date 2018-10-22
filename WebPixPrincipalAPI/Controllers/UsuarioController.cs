@@ -99,5 +99,19 @@ namespace WebPixPrincipalAPI.Controllers
             else
                 return Json(new { msg = false });
         }
+
+        [ActionName("GetByUsuariosIds")]
+        [HttpPost("{idCliente:int}/{token}")]
+        public async Task<IEnumerable<Usuario>> GetByUsuariosIds([FromRoute]string token, [FromBody]IEnumerable<int> ids, int idCliente)
+        {
+            if(await Seguranca.validaTokenAsync(token))
+            {
+                return UsuarioDAO.GetByIds(idCliente, ids);
+            }
+            else
+            {
+                return new List<Usuario>();
+            }
+        }
     }
 }
