@@ -18,8 +18,8 @@ namespace WebPixPrincipalRepository
                     using (var db = new WebPixContext())
                     {
                         db.Usuario.Add(obj);
-                        int Id = db.SaveChanges();
-                        return db.Usuario.Where(x => x.ID == Id).FirstOrDefault();
+                        db.SaveChanges();
+                        return obj;
                     }
                 }
                 else
@@ -29,7 +29,7 @@ namespace WebPixPrincipalRepository
                     {
                         db.Usuario.Update(obj);
                         db.SaveChanges();
-                        return new Usuario();
+                        return obj;
                     }
                 }
             }
