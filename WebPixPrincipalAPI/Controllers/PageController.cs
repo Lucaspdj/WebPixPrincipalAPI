@@ -6,6 +6,7 @@ using WebPixPrincipalRepository.Entity;
 using WebPixPrincipalRepository;
 using WebPixPrincipalAPI.Helper;
 using System;
+using WebPixPrincipalAPI.Model;
 
 namespace WebPixPrincipalAPI.Controllers
 {
@@ -16,14 +17,14 @@ namespace WebPixPrincipalAPI.Controllers
 
         [HttpPost("{token}")]
         [ActionName("SavePagina")]
-        public async Task<JsonResult> SavePagina([FromBody]Page page, string token)
+        public async Task<JsonResult> SavePagina([FromBody]PageViewModel page, string token)
         {
             if (await Seguranca.validaTokenAsync(token))
             {
                 Page pagina = new Page();
                 if (page.idCliente != 0)
                 {
-                    if (PageDAO.Save(page))
+                    if (PageDAO.Save(ConvertToEntity(page)))
                     {
                         return Json("Pagina salva com sucesso");
                     }
@@ -39,6 +40,28 @@ namespace WebPixPrincipalAPI.Controllers
             {
                 return Json("Você nao tem acesso neste plugin");
             }
+        }
+
+        private Page ConvertToEntity(PageViewModel page)
+        {
+            Page pagina = new Page
+            {
+                Ativo = page.Ativo,
+                Conteudo = System.Text.Encoding.UTF8.GetString(page.Conteudo),
+                DataCriacao = page.DataCriacao,
+                DateAlteracao = page.DateAlteracao,
+                Descricao = page.Descricao,
+                ID = page.ID,
+                idCliente = page.idCliente,
+                idMenu = page.idMenu,
+                Nome = page.Nome,
+                Status = page.Status,
+                Titulo = page.Titulo,
+                Url = page.Url,
+                UsuarioCriacao= page.UsuarioCriacao,
+                UsuarioEdicao = page.UsuarioEdicao
+            };
+            return pagina;
         }
 
         [ActionName("GetAllPagina")]
