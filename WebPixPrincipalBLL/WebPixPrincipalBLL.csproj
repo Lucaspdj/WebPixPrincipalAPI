@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="1.16.1" />
+    <PackageReference Include="RestSharp.NetCore" Version="105.2.3" />
   </ItemGroup>
 
   <ItemGroup>

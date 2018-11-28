@@ -15,7 +15,7 @@ namespace WebPixPrincipalAPI.Controllers
     {
         [ActionName("EnviaSimplesEmail")]
         [HttpPost("{token}")]
-        public async Task<string> EnviaSimplesEmail([FromBody]Object envio, string token)
+        public async Task<Object> EnviaSimplesEmail([FromBody]Object envio, string token)
         {
             if (await Seguranca.validaTokenAsync(token))
             {
@@ -29,18 +29,30 @@ namespace WebPixPrincipalAPI.Controllers
                 string destinatario = obj.destinatario;
                 int idCliente = obj.idCliente;
 
+                EmailBO emailBO = new EmailBO();
 
-                if (EmailBO.EnviaSimplesEmail(email, remetente, destinatario, idCliente))
+                if (await emailBO.EnviaSimplesEmailAsync(email, remetente, destinatario, idCliente))
                 {
-                    return "E-mail enviado com sucesso";
+                    Object Retorno = new object();
+                    Retorno = new { retorno = "Email enviado com sucesso" };
+
+                    return Retorno;
                 }
                 else
                 {
-                    return "Houve uma falha ao enviar email";
+                    Object Retorno = new object();
+                    Retorno = new { retorno = "Houve uma falha ao enviar email" };
+
+                    return Retorno;
                 }
             }
             else
-                return "Você nao tem acesso esse plugin";
+            {
+                Object Retorno = new object();
+                Retorno = new { retorno = "Você nao tem acesso esse plugin" };
+
+                return Retorno;
+            }
 
 
         }

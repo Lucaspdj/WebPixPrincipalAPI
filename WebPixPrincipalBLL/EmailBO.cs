@@ -3,13 +3,17 @@ using WebPixPrincipalRepository;
 using WebPixPrincipalRepository.Entity;
 using MailKit.Net.Smtp;
 using MimeKit;
+using RestSharp;
+using RestSharpEx;
+using System.IO;
+using RestSharp.Authenticators;
 
 namespace WebPixPrincipalBLL
 {
-    public static class EmailBO
+    public class EmailBO
     {       
 
-        public static bool EnviaSimplesEmail(Email email, string remetente, string destinatario, int idCliente)
+        public async System.Threading.Tasks.Task<bool> EnviaSimplesEmailAsync(Email email, string remetente, string destinatario, int idCliente)
         {
             var paramentros = ConfiguracaoDAO.GetParametros(idCliente);
 
@@ -25,28 +29,33 @@ namespace WebPixPrincipalBLL
 
             try
             {
-                using (var client = new SmtpClient())
-                {
-                    // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
-                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-
-                    client.Connect(paramentros["HostSTMP"], int.Parse(paramentros["PortaSTMP"]), true);
-                    //client.Connect("smtp.gmail.com", 465, true);
-                    // Note: since we don't have an OAuth2 token, disable
-                    // the XOAUTH2 authentication mechanism.
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
-
-                    // Note: only needed if the SMTP server requires authentication
-                    client.Authenticate(paramentros["LoginSTMP"], paramentros["SenhaSTMP"]);
-                    //client.Authenticate("lucas.fernando.web@gmail.com", "lucas-2007");
-
-                    client.Send(message);
-                    client.Disconnect(true);
-                    return true;
-                }
+                RestClient client = new RestClient();
+                client.BaseUrl = new Uri("https://api.mailgun.net/v3");
+                client.Authenticator =
+                    new HttpBasicAuthenticator("api",
+                                                "34f01503b964fc6058eb634dbe2b0600-9525e19d-57d02faf");
+                RestRequest request = new RestRequest();
+                request.AddParameter("domain", "mundowebpix.com.br", ParameterType.UrlSegment);
+                request.Resource = "{domain}/messages";
+                request.AddParameter("from", "Site <mailgun@mundowebpix.com.br>");
+                request.AddParameter("to", destinatario);
+                request.AddParameter("subject", email.Titulo);
+                request.AddParameter("text", email.Conteudo);
+                request.Method = Method.POST;
+                var response = await client.ExecuteTaskAsync(request);
+                return true;
             }
             catch(Exception e)
-            { return false; }
+            {
+                string fileName = @"D:\Web\Logs\logs.txt";
+                using (StreamWriter sw = File.AppendText(fileName))
+                {
+                    sw.WriteLine("--------- Append Text Start ----------");
+                    sw.WriteLine(e.Message);
+                    sw.WriteLine("--------- Append Text End ----------");
+                }
+                return false;
+            }
             
         }
 

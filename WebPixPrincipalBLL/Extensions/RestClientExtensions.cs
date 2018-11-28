@@ -7,7 +7,7 @@ namespace RestSharpEx
     public static class RestClientExtensions
     {
         //Really que eu precisei extender essa merda ????? ¯\_(ツ)_/¯
-        public static Task<IRestResponse> ExecuteTaskAsync2(this RestClient @this, RestRequest request)
+        public static Task<IRestResponse> ExecuteTaskAsync(this RestClient @this, RestRequest request)
         {
             if (@this == null)
                 throw new NullReferenceException();

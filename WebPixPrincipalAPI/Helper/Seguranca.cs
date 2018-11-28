@@ -14,7 +14,7 @@ namespace WebPixPrincipalAPI.Helper
             var url = "/api/token/ValidaToken/" + token;
             RestRequest request = null;
             request = new RestRequest(url, Method.GET);
-            var response = await client.ExecuteTaskAsync(request);
+            var response = await client.ExecuteTaskAsync2(request);
 
             return Convert.ToBoolean(response.Content);
         }
