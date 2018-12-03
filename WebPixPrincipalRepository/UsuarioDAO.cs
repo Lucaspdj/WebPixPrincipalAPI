@@ -71,6 +71,7 @@ namespace WebPixPrincipalRepository
             }
 
         }
+
         public static Usuario GetById(int idCliente, int id)
         {
             try

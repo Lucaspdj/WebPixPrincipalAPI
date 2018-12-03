@@ -91,5 +91,23 @@ namespace WebPixPrincipalRepository
             }
 
         }
+
+        public static IEnumerable<Estrutura> GetByMotorAndTipoAcoes(int motor, IEnumerable<int> tipoAcoes, int tipo, int idCliente)
+        {
+            try
+            {
+                using (var db = new WebPixContext())
+                {
+                    var result = db.Estrutura.Where(e => e.IdMotorAux.Equals(motor) && e.Tipo.Equals(tipo) && e.idCliente.Equals(idCliente)
+                        && (tipoAcoes.Contains(e.idTipoAcao) || e.idTipoAcao == 4 || e.idPai == 0)).ToList();
+
+                    return result;
+                }
+            }
+            catch(Exception e)
+            {
+                return new List<Estrutura>();
+            }
+        }
     }
 }

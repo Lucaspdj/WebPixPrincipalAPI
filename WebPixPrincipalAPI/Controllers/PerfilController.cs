@@ -3,6 +3,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebPixPrincipalRepository.Entity;
 using WebPixPrincipalRepository;
+using WebPixPrincipalAPI.Helper;
+using System.Threading.Tasks;
 
 namespace WebPixPrincipalAPI.Controllers
 {
@@ -30,18 +32,31 @@ namespace WebPixPrincipalAPI.Controllers
         }
 
         [ActionName("GetAllPerfil")]
-        [HttpGet("{idCliente}")]
-        public IEnumerable<Perfil> GetAllPerfil(int idCliente)
+        [HttpGet("{idCliente:int}/{token}")]
+        public async Task<IEnumerable<Perfil>> GetAllPerfil([FromRoute]int idCliente, [FromRoute]string token)
         {
-            return PerfilDAO.GetAll().Where(x => x.idCliente == idCliente).ToList();
+            if (await Seguranca.validaTokenAsync(token))
+            {
+                return PerfilDAO.GetAll().Where(x => x.idCliente == idCliente).ToList();
+            }
+
+            return new List<Perfil>();
         }
 
-        //[ActionName("GetPerfilByID")]
-        //[HttpGet("{ID}")]
-        //public Perfil Get(int id)
-        //{
-        //    return PerfilDAO.GetAll().Find(x => x.ID == id);
-        //}
+        [ActionName("GetPerfilByID")]
+        [HttpGet("{id:int}/{token}")]
+        public async Task<Perfil> GetPerfilByID([FromRoute]int id, [FromRoute]string token)
+        {
+            if (await Seguranca.validaTokenAsync(token))
+            {
+                return PerfilDAO.GetById(id);
+            }
+            else
+            {
+                return new Perfil();
+            }
+        }
+
         //[ActionName("DeletePerfil")]
         //[HttpDelete("{id}")]
         //public string Delete(int id)
