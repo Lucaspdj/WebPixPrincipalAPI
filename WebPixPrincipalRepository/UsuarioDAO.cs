@@ -103,5 +103,21 @@ namespace WebPixPrincipalRepository
                 return new List<Usuario>();
             }
         }
+
+        public static Usuario GetUsuario(string login, string senha, int idCliente)
+        {
+            try
+            {
+                using (var db = new WebPixContext())
+                {
+                    var users = db.Usuario.Where(x => x.idCliente.Equals(idCliente) && x.Login.Equals(login) && x.Senha.Equals(senha));
+                    return users.FirstOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+                return new Usuario();
+            }
+        }
     }
 }
