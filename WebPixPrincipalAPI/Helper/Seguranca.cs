@@ -10,7 +10,7 @@ namespace WebPixPrincipalAPI.Helper
         public static async Task<bool> validaTokenAsync(string token)
         {
 
-            RestClient client = new RestClient("http://seguranca.mundowebpix.com.br:5300/");
+            RestClient client = new RestClient("http://localhost:5300/");
             var url = "/api/token/ValidaToken/" + token;
             RestRequest request = null;
             request = new RestRequest(url, Method.GET);

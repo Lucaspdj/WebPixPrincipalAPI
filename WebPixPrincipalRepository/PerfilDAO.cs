@@ -71,5 +71,21 @@ namespace WebPixPrincipalRepository
             }
 
         }
+
+        public static Perfil GetById(int id)
+        {
+            try
+            {
+                using (var db = new WebPixContext())
+                {
+                    var result = db.Perfil.Where(p => p.ID.Equals(id)).SingleOrDefault();
+                    return result;
+                }
+            }
+            catch(Exception e)
+            {
+                return new Perfil();
+            }
+        }
     }
 }

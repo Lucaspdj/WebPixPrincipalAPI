@@ -41,7 +41,8 @@ namespace WebPixPrincipalAPI.Controllers
 
         [ActionName("GetAllEstrutura")]
         [HttpPost("{idCliente}/{token}")]
-        public async Task<IEnumerable<Estrutura>> GetAllEstrutura([FromRoute]int idCliente, [FromBody]IEnumerable<int> idTipoAcoes, [FromRoute]string token)
+        public async Task<IEnumerable<Estrutura>> GetAllEstrutura([FromRoute]int idCliente,
+            [FromBody]IEnumerable<int> idTipoAcoes, [FromRoute]string token)
         {
             if (await Seguranca.validaTokenAsync(token))
             {
@@ -67,6 +68,29 @@ namespace WebPixPrincipalAPI.Controllers
                 return Json(new { msg = false });
         }
 
+        [ActionName("GetEstruturas")]
+        [HttpPost("{idCliente:int}/{tipo:int}/{token}")]
+        public async Task<IEnumerable<Estrutura>> GetEstruturasAsync([FromRoute]int idCliente, [FromRoute] int tipo,
+            [FromRoute]string token, [FromBody]IDictionary<string, string> valuePairs)
+        {
+            if(await Seguranca.validaTokenAsync(token))
+            {
+                List<Estrutura> result = new List<Estrutura>();
 
+                foreach (var item in valuePairs)
+                {
+                    var tipoAcoes = item.Value.Split(',').Select(t => Convert.ToInt32(t));
+                    var estruturas = EstruturaDAO.GetByMotorAndTipoAcoes(Convert.ToInt32(item.Key), tipoAcoes, tipo, idCliente);
+
+                    result.AddRange(estruturas);
+                }
+
+                return result;
+            }
+            else
+            {
+                return new List<Estrutura>();
+            }
+        }
     }
 }

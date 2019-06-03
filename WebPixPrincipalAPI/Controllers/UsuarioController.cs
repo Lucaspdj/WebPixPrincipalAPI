@@ -26,7 +26,8 @@ namespace WebPixPrincipalAPI.Controllers
 
                 try
                 {
-                    return Json(UsuarioDAO.Save(usuario));
+                    var newUsuario = UsuarioDAO.Save(usuario);
+                    return Json(newUsuario);
                 }
                 catch (Exception e)
                 {
@@ -97,7 +98,9 @@ namespace WebPixPrincipalAPI.Controllers
             if (await Seguranca.validaTokenAsync(token))
             {
                 Usuario obj = UsuarioDAO.GetAll().Where(x => x.ID == Convert.ToInt32(a)).FirstOrDefault();
-                return Json(new { msg = UsuarioDAO.Remove(obj) });
+                var msg = new { msg = UsuarioDAO.Remove(obj) };
+
+                return Json(msg);
                 //return Json(new { msg = false });
             }
             else

@@ -15,6 +15,6 @@ namespace WebPixPrincipalRepository.Entity
         public string LinkManual { get; set; }
         public string UrlManual { get; set; }
         public int Ordem { get; set; }
-
+        public int IdMotorAux { get; set; }
     }
 }

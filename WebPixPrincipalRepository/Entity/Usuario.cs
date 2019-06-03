@@ -1,4 +1,6 @@
-﻿namespace WebPixPrincipalRepository.Entity
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace WebPixPrincipalRepository.Entity
 {
     public class Usuario : Base
     {
